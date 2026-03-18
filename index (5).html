@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>천안 AI 캠퍼스 허브 — 2026 천안시 정책 아이디어 공모전</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0e1a;--bg2:#0f1524;--bg3:#151c30;--accent:#4af0a0;--accent2:#38bdf8;--accent3:#f472b6;--gold:#fbbf24;--text:#e8edf5;--muted:#7a8aa0;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;overflow-x:hidden;}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(74,240,160,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(74,240,160,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.bg-glow{position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(120px);opacity:.1;}
+.bg-glow-1{width:600px;height:600px;background:var(--accent);top:-200px;left:-200px;}
+.bg-glow-2{width:500px;height:500px;background:var(--accent2);bottom:10%;right:-150px;}
+.bg-glow-3{width:400px;height:400px;background:var(--accent3);top:40%;left:30%;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3rem;background:rgba(10,14,26,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:.85rem;color:var(--accent);letter-spacing:.1em;}
+.nav-badge{font-size:.75rem;color:var(--muted);background:var(--card);border:1px solid var(--border);padding:.3rem .9rem;border-radius:100px;}
+section{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:5rem 2rem;}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding-top:8rem;max-width:960px;margin:0 auto;padding-left:2rem;padding-right:2rem;position:relative;z-index:1;}
+.hero-label{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:.8rem;}
+.hero-label::before{content:'';display:block;width:32px;height:1px;background:var(--accent);}
+.hero-title{font-family:'Noto Serif KR',serif;font-size:clamp(2.6rem,7vw,5rem);font-weight:900;line-height:1.12;letter-spacing:-.02em;margin-bottom:1.5rem;}
+.hl{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:1.02rem;color:var(--muted);line-height:1.9;max-width:560px;margin-bottom:2.5rem;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:2.5rem;}
+.tag{font-size:.78rem;padding:.35rem .9rem;border-radius:100px;border:1px solid;font-weight:500;}
+.tg{border-color:var(--accent);color:var(--accent);background:rgba(74,240,160,.07);}
+.tb{border-color:var(--accent2);color:var(--accent2);background:rgba(56,189,248,.07);}
+.tp{border-color:var(--accent3);color:var(--accent3);background:rgba(244,114,182,.07);}
+.tl{border-color:var(--gold);color:var(--gold);background:rgba(251,191,36,.07);}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;width:100%;max-width:560px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.4rem 1.2rem;text-align:center;}
+.stat-num{font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;color:var(--accent);margin-bottom:.3rem;}
+.stat-desc{font-size:.73rem;color:var(--muted);line-height:1.5;}
+.snum{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.2em;margin-bottom:.4rem;}
+.stitle{font-family:'Noto Serif KR',serif;font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:700;margin-bottom:2rem;line-height:1.3;}
+.divider{height:1px;background:linear-gradient(90deg,var(--accent) 0%,transparent 100%);margin-bottom:2.5rem;opacity:.3;}
+
+/* ===== TRANSIT MAP ===== */
+.map-wrap{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;}
+.map-canvas{width:100%;background:rgba(15,21,36,.6);position:relative;}
+.map-canvas svg{display:block;width:100%;height:auto;}
+
+@keyframes ring-pulse{0%,100%{opacity:.7;r:26}50%{opacity:.2;r:38}}
+@keyframes dash-move{to{stroke-dashoffset:-20}}
+.cheonan-ring{animation:ring-pulse 2.5s ease-in-out infinite;}
+.route-line{stroke-dasharray:7 5;animation:dash-move 2.2s linear infinite;}
+
+.time-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:1.4rem;border-top:1px solid var(--border);}
+.time-card{background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;cursor:pointer;transition:all .2s;}
+.time-card:hover,.time-card.active{border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.06);}
+.tc-city{font-size:.75rem;color:var(--muted);margin-bottom:.25rem;}
+.tc-time{font-family:'Space Mono',monospace;font-size:1.35rem;color:var(--accent2);font-weight:700;margin-bottom:.2rem;}
+.tc-type{font-size:.68rem;color:var(--muted);}
+.tc-pop{font-size:.7rem;color:var(--gold);margin-top:.2rem;}
+
+.pop-bars{padding:1rem 1.4rem 1.4rem;border-top:1px solid var(--border);}
+.pop-title{font-size:.72rem;color:var(--muted);margin-bottom:.9rem;font-family:'Space Mono',monospace;letter-spacing:.08em;}
+.pop-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.5rem;}
+.pop-label{font-size:.73rem;color:var(--muted);width:58px;text-align:right;flex-shrink:0;}
+.pop-bar-bg{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.pop-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width 1.2s ease;}
+.pop-val{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent2);width:48px;flex-shrink:0;}
+
+/* Overview */
+.ov-card{background:linear-gradient(135deg,rgba(74,240,160,.07),rgba(56,189,248,.04));border:1px solid rgba(74,240,160,.18);border-radius:20px;padding:2.2rem;line-height:2;}
+.ov-card strong{color:var(--accent);font-weight:700;}
+
+/* Problem */
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.prob-item{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent3);border-radius:12px;padding:1.4rem;}
+.prob-item h4{font-size:.87rem;color:var(--accent3);margin-bottom:.45rem;font-weight:600;}
+.prob-item p{font-size:.83rem;color:var(--muted);line-height:1.7;}
+.ktx-box{margin-top:1.5rem;background:linear-gradient(135deg,rgba(251,191,36,.07),rgba(74,240,160,.05));border:1px solid rgba(251,191,36,.22);border-radius:16px;padding:1.5rem 2rem;display:flex;align-items:center;gap:1.5rem;}
+.ktx-icon{font-size:2.2rem;}
+.ktx-text h4{font-size:.95rem;color:var(--gold);font-weight:700;margin-bottom:.3rem;}
+.ktx-text p{font-size:.83rem;color:var(--muted);line-height:1.65;}
+
+/* Solution */
+.sol-list{display:flex;flex-direction:column;position:relative;}
+.sol-list::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2),var(--accent3));opacity:.25;}
+.sol-item{display:flex;gap:1.8rem;padding-bottom:2rem;position:relative;}
+.sol-dot{width:58px;height:58px;flex-shrink:0;border-radius:50%;background:var(--bg3);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.2rem;position:relative;z-index:1;}
+.sol-body{flex:1;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.4rem 1.7rem;transition:border-color .25s;}
+.sol-body:hover{border-color:rgba(74,240,160,.28);}
+.sol-body h3{font-size:1rem;font-weight:700;margin-bottom:.4rem;color:var(--accent);}
+.sol-body p{font-size:.87rem;color:var(--muted);line-height:1.8;}
+.sol-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem;}
+.sol-tag{font-size:.7rem;background:rgba(74,240,160,.07);border:1px solid rgba(74,240,160,.18);color:var(--accent);padding:.22rem .65rem;border-radius:100px;}
+
+/* Effect */
+.eff-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.5rem;}
+.eff-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.7rem;transition:transform .25s,border-color .25s;}
+.eff-card:hover{transform:translateY(-3px);border-color:rgba(74,240,160,.2);}
+.eff-icon{font-size:1.7rem;margin-bottom:.7rem;}
+.eff-card h4{font-size:.92rem;font-weight:700;margin-bottom:.4rem;}
+.eff-card p{font-size:.82rem;color:var(--muted);line-height:1.7;}
+.eff-num{font-family:'Space Mono',monospace;font-size:1.25rem;color:var(--accent2);margin-top:.7rem;font-weight:700;}
+
+/* Measure */
+.mea-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.mea-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;text-align:center;}
+.mea-item.on{background:rgba(74,240,160,.07);border-color:rgba(74,240,160,.28);}
+.mea-check{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;margin-bottom:.4rem;font-size:.72rem;font-weight:700;}
+.mea-item.on .mea-check{background:var(--accent);color:#0a0e1a;}
+.mea-item:not(.on) .mea-check{background:rgba(255,255,255,.08);color:var(--muted);}
+.mea-item span{font-size:.8rem;display:block;line-height:1.4;}
+
+.fade-up{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+footer{position:relative;z-index:1;text-align:center;padding:3rem 2rem 4rem;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;line-height:1.8;}
+footer strong{color:var(--accent);}
+@media(max-width:640px){
+  nav{padding:1rem 1.5rem;}
+  .prob-grid,.eff-grid{grid-template-columns:1fr;}
+  .mea-grid{grid-template-columns:1fr 1fr;}
+  .hero-stats{grid-template-columns:1fr;}
+  .time-cards{grid-template-columns:1fr 1fr;}
+  .ktx-box{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+<div class="bg-glow bg-glow-3"></div>
+
+<nav>
+  <div class="nav-logo">CHEONAN.AI</div>
+  <div class="nav-badge">🌱 키워:봄 — 2026 정책 아이디어 공모전</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">제안제목</div>
+  <h1 class="hero-title">전국을 연결하는<br><span class="hl">천안 AI 캠퍼스 허브</span></h1>
+  <p class="hero-sub">KTX·GTX 교통 요충지 천안에 AI·디지털 역량강화 거점을 구축하여<br><strong style="color:var(--accent)">대한민국 AI 교육의 중심</strong>으로 전국 청년·중장년·창업자를 모읍니다.</p>
+  <div class="hero-tags">
+    <span class="tag tg">키워:봄</span>
+    <span class="tag tb">미래산업 육성</span>
+    <span class="tag tb">교육 경쟁력 강화</span>
+    <span class="tag tp">청년·중장년·창업자</span>
+    <span class="tag tl">KTX·GTX 허브</span>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-card"><div class="stat-num">70만+</div><div class="stat-desc">천안 인구<br>(2025년 5월 돌파)</div></div>
+    <div class="stat-card"><div class="stat-num">29.9%</div><div class="stat-desc">청년 인구 비율<br>(수도권 외 최상위)</div></div>
+    <div class="stat-card"><div class="stat-num">4,000만</div><div class="stat-desc">KTX 2시간 내<br>접근 인구</div></div>
+  </div>
+</div>
+
+<!-- TRANSIT MAP -->
+<section class="fade-up">
+  <div class="snum">// SPECIAL — 교통 접근성 시각화</div>
+  <h2 class="stitle">전국이 2시간 안에 닿는 도시, 천안</h2>
+  <div class="divider"></div>
+  <p style="font-size:.9rem;color:var(--muted);line-height:1.9;margin-bottom:1.6rem;">천안아산역은 경부선·호남선 KTX, SRT, 수도권 전철 1호선이 교차하는 <strong style="color:var(--text)">전국 교통의 십자로</strong>입니다. 도시를 클릭하면 소요시간 정보를 볼 수 있습니다.</p>
+  <div class="map-wrap">
+    <!-- 인터랙티브 지도 -->
+    <div class="map-canvas">
+      <svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg" style="background:rgba(10,14,26,.5)">
+        <defs>
+          <radialGradient id="gc" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#4af0a0" stop-opacity=".3"/>
+            <stop offset="100%" stop-color="#4af0a0" stop-opacity="0"/>
+          </radialGradient>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+            <path d="M2 2L8 5L2 8" fill="none" stroke="context-stroke" stroke-width="1.5"/>
+          </marker>
+        </defs>
+
+        <!-- 한반도 실루엣 -->
+        <path d="M190,35 L230,25 L275,35 L310,50 L342,44 L368,56 L388,74 L410,68 L438,84 L458,106 L466,132 L462,158 L472,182 L477,212 L467,238 L477,263 L472,288 L457,308 L446,332 L436,352 L420,366 L410,380 L395,392 L380,406 L364,417 L346,424 L330,430 L314,436 L297,442 L278,447 L260,452 L244,456 L228,452 L214,445 L202,436 L192,427 L185,415 L180,402 L174,388 L169,373 L166,358 L163,342 L160,327 L157,312 L153,297 L149,282 L146,267 L143,252 L140,237 L137,222 L134,207 L131,192 L128,177 L126,162 L124,147 L122,132 L120,117 L119,102 L118,87 L120,72 L128,57 L148,43 L172,35 Z"
+          fill="rgba(56,189,248,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+
+        <!-- 동해 -->
+        <text x="530" y="200" font-family="'Noto Sans KR',sans-serif" font-size="13" fill="rgba(56,189,248,0.3)" text-anchor="middle">동  해</text>
+        <!-- 서해 -->
+        <text x="80" y="280" font-family="'Noto Sans KR',sans-serif" font-size="13" fill="rgba(56,189,248,0.25)" text-anchor="middle">서  해</text>
+        <!-- 남해 -->
+        <text x="300" y="478" font-family="'Noto Sans KR',sans-serif" font-size="13" fill="rgba(56,189,248,0.2)" text-anchor="middle">남  해</text>
+
+        <!-- KTX 경부선 라인 (서울→천안→대전→대구→부산) -->
+        <polyline class="route-line" points="285,125 308,192 310,245 368,292 396,368" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arr)"/>
+        <!-- KTX 호남선 (천안→광주) -->
+        <polyline class="route-line" points="308,192 248,295" fill="none" stroke="#4af0a0" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arr)" style="animation-delay:-.5s"/>
+        <!-- GTX-C (수원→천안, 노란 굵은선) -->
+        <polyline class="route-line" points="295,162 308,192" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="5 4" marker-end="url(#arr)" style="animation-delay:-.8s"/>
+        <!-- SRT (수서→천안) -->
+        <polyline class="route-line" points="305,148 308,192" fill="none" stroke="#f472b6" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)" style="animation-delay:-1s"/>
+
+        <!-- 천안 glow -->
+        <circle cx="308" cy="192" r="52" fill="url(#gc)"/>
+        <!-- 천안 pulse ring -->
+        <circle class="cheonan-ring" cx="308" cy="192" r="25" fill="none" stroke="#4af0a0" stroke-width="1.8"/>
+
+        <!-- ===== 도시 노드 ===== -->
+
+        <!-- 서울 -->
+        <g id="node-서울" class="city-node" onclick="sel('서울',this)" style="cursor:pointer">
+          <circle cx="285" cy="125" r="15" fill="rgba(56,189,248,.2)" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="285" y="126" text-anchor="middle" dominant-baseline="central" font-family="'Noto Sans KR',sans-serif" font-size="11" font-weight="500" fill="#e8edf5">서울</text>
+          <text x="265" y="108" text-anchor="middle" font-family="'Space Mono',monospace" font-size="10" fill="#38bdf8">50분</text>
+        </g>
+
+        <!-- 인천/경기 -->
+        <g id="node-수원" class="city-node" onclick="sel('수원',this)" style="cursor:pointer">
+          <circle cx="258" cy="148" r="11" fill="rgba(251,191,36,.18)" stroke="#fbbf24" stroke-width="1.5"/>
+          <text x="258" y="149" text-anchor="middle" dominant-baseline="central" font-family="'Noto Sans KR',sans-serif" font-size="10" fill="#e8edf5">수원</text>
+          <text x="232" y="140" text-anchor="end" font-family="'Space Mono',monospace" font-size="9" fill="#fbbf24">GTX-C↓</text>
+        </g>
+
+        <!-- 수서 (SRT) -->
+        <g id="node-수서" class="city-node" onclick="sel('수서',this)" style="cursor:pointer">
+          <circle cx="306" cy="143" r="9" fill="rgba(244,114,182,.18)" stroke="#f472b6" stroke-width="1.5"/>
+          <text x="325" y="143" text-anchor="start" font-family="'Noto Sans KR',sans-serif" font-size="10" fill="#e8edf5">수서</text>
+          <text x="325" y="133" text-anchor="start" font-family="'Space Mono',monospace" font-size="9" fill="#f472b6">40분 SRT</text>
+        </g>
+
+        <!-- 천안 (중심) -->
+        <g id="node-천안" onclick="sel('천안',this)" style="cursor:pointer">
+          <circle cx="308" cy="192" r="21" fill="rgba(74,240,160,.14)" stroke="#4af0a0" stroke-width="2"/>
+          <text x="308" y="193" text-anchor="middle" dominant-baseline="central" font-family="'Noto Sans KR',sans-serif" font-size="12" font-weight="700" fill="#4af0a0">천안</text>
+          <text x="336" y="182" text-anchor="start" font-family="'Noto Sans KR',sans-serif" font-size="10" fill="#4af0a0">AI 허브</text>
+        </g>
+
+        <!-- 대전 -->
+        <g id="node-대전" class="city-node" onclick="sel('대전',this)" style="cursor:pointer">
+          <circle cx="310" cy="245" r="13" fill="rgba(56,189,248,.18)" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="310" y="246" text-anchor="middle" dominant-baseline="central" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#e8edf5">대전</text>
+          <text x="328" y="246" text-anchor="start" font-family="'Space Mono',monospace" font-size="10" fill="#38bdf8">25분</text>
+        </g>
+
+        <!-- 광주 -->
+        <g id="node-광주" class="city-node" onclick="sel('광주',this)" style="cursor:pointer">
+          <circle cx="248" cy="295" r="12" fill="rgba(244,114,182,.18)" stroke="#f472b6" stroke-width="1.5"/>
+          <text x="248" y="296" text-anchor="middle" dominant-baseline="central" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#e8edf5">광주</text>
+          <text x="228" y="296" text-anchor="end" font-family="'Space Mono',monospace" font-size="10" fill="#f472b6">75분</text>
+        </g>
+
+        <!-- 대구 -->
+        <g id="node-대구" class="city-node" onclick="sel('대구',this)" style="cursor:pointer">
+          <circle cx="368" cy="292" r="12" fill="rgba(56,189,248,.18)" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="368" y="293" text-anchor="middle" dominant-baseline="central" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#e8edf5">대구</text>
+          <text x="386" y="293" text-anchor="start" font-family="'Space Mono',monospace" font-size="10" fill="#38bdf8">65분</text>
+        </g>
+
+        <!-- 부산 -->
+        <g id="node-부산" class="city-node" onclick="sel('부산',this)" style="cursor:pointer">
+          <circle cx="396" cy="368" r="13" fill="rgba(244,114,182,.18)" stroke="#f472b6" stroke-width="1.5"/>
+          <text x="396" y="369" text-anchor="middle" dominant-baseline="central" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#e8edf5">부산</text>
+          <text x="414" y="369" text-anchor="start" font-family="'Space Mono',monospace" font-size="10" fill="#f472b6">110분</text>
+        </g>
+
+        <!-- 범례 박스 -->
+        <rect x="540" y="22" width="235" height="125" rx="10" fill="rgba(10,14,26,.75)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+        <text x="556" y="44" font-family="'Space Mono',monospace" font-size="10" fill="#7a8aa0" letter-spacing="1">노선 범례</text>
+        <line x1="556" y1="60" x2="592" y2="60" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="6 4"/>
+        <text x="600" y="64" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#e8edf5">KTX 경부·호남선</text>
+        <line x1="556" y1="82" x2="592" y2="82" stroke="#f472b6" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="600" y="86" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#e8edf5">SRT (수서발)</text>
+        <line x1="556" y1="104" x2="592" y2="104" stroke="#fbbf24" stroke-width="3" stroke-dasharray="5 3"/>
+        <text x="600" y="108" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#e8edf5">GTX-C (예정)</text>
+        <line x1="556" y1="126" x2="592" y2="126" stroke="#4af0a0" stroke-width="2" stroke-dasharray="6 5"/>
+        <text x="600" y="130" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#e8edf5">KTX 호남선</text>
+
+        <!-- 정보 패널 (클릭 시 업데이트) -->
+        <g id="info-panel">
+          <rect x="540" y="160" width="235" height="100" rx="10" fill="rgba(74,240,160,.07)" stroke="rgba(74,240,160,.25)" stroke-width="1"/>
+          <text id="ip-city" x="556" y="185" font-family="'Noto Sans KR',sans-serif" font-size="13" font-weight="700" fill="#4af0a0">천안아산역 출발</text>
+          <text id="ip-time" x="556" y="210" font-family="'Space Mono',monospace" font-size="22" font-weight="700" fill="#38bdf8">클릭해서 확인</text>
+          <text id="ip-type" x="556" y="232" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#7a8aa0">도시를 클릭하세요</text>
+          <text id="ip-pop" x="556" y="250" font-family="'Noto Sans KR',sans-serif" font-size="11" fill="#fbbf24"></text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Time cards -->
+    <div class="time-cards">
+      <div class="time-card active" id="tc-서울" onclick="sel('서울')">
+        <div class="tc-city">서울 → 천안</div>
+        <div class="tc-time">50분</div>
+        <div class="tc-type">KTX / SRT</div>
+        <div class="tc-pop">인구 963만</div>
+      </div>
+      <div class="time-card" id="tc-대전" onclick="sel('대전')">
+        <div class="tc-city">대전 → 천안</div>
+        <div class="tc-time">25분</div>
+        <div class="tc-type">KTX</div>
+        <div class="tc-pop">인구 144만</div>
+      </div>
+      <div class="time-card" id="tc-대구" onclick="sel('대구')">
+        <div class="tc-city">대구 → 천안</div>
+        <div class="tc-time">65분</div>
+        <div class="tc-type">KTX</div>
+        <div class="tc-pop">인구 238만</div>
+      </div>
+      <div class="time-card" id="tc-부산" onclick="sel('부산')">
+        <div class="tc-city">부산 → 천안</div>
+        <div class="tc-time">110분</div>
+        <div class="tc-type">KTX</div>
+        <div class="tc-pop">인구 330만</div>
+      </div>
+    </div>
+
+    <!-- Population reach -->
+    <div class="pop-bars">
+      <div class="pop-title">// KTX 2시간 이내 — 접근 가능 인구 규모</div>
+      <div class="pop-row">
+        <div class="pop-label">수도권</div>
+        <div class="pop-bar-bg"><div class="pop-bar-fill" style="width:0%" data-w="96%"></div></div>
+        <div class="pop-val">2,600만+</div>
+      </div>
+      <div class="pop-row">
+        <div class="pop-label">영남권</div>
+        <div class="pop-bar-bg"><div class="pop-bar-fill" style="width:0%" data-w="62%"></div></div>
+        <div class="pop-val">800만+</div>
+      </div>
+      <div class="pop-row">
+        <div class="pop-label">충청권</div>
+        <div class="pop-bar-bg"><div class="pop-bar-fill" style="width:0%" data-w="55%"></div></div>
+        <div class="pop-val">350만+</div>
+      </div>
+      <div class="pop-row">
+        <div class="pop-label">호남권</div>
+        <div class="pop-bar-bg"><div class="pop-bar-fill" style="width:0%" data-w="46%"></div></div>
+        <div class="pop-val">300만+</div>
+      </div>
+      <p style="font-size:.73rem;color:var(--muted);margin-top:.9rem;line-height:1.6;">※ KTX 소요시간: 서울 50분, 수원 35분~, 수서(SRT) 40분, 대전 25분, 광주 75분, 대구 65분, 부산 110분 (천안아산역 출발 기준)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 개요 -->
+<section class="fade-up">
+  <div class="snum">// 03 — 개요</div>
+  <h2 class="stitle">한 줄 요약</h2>
+  <div class="divider"></div>
+  <div class="ov-card">
+    AI·디지털 교육 인프라가 수도권에 집중된 현실에서, <strong>KTX·GTX로 전국 어디서든 1~2시간 내 접근 가능한 천안</strong>에 AI 실습 거점 센터를 설치하여, 청년의 취업·창업 역량, 중장년의 디지털 전환 역량을 키우고, 나아가 전국 단위 수강자 유입으로 <strong>천안 지역 경제 활성화</strong>까지 이어지는 선순환 생태계를 구축합니다.
+  </div>
+</section>
+
+<!-- 현황 및 문제점 -->
+<section class="fade-up">
+  <div class="snum">// 04 — 현황 및 문제점</div>
+  <h2 class="stitle">왜 지금, 왜 천안인가?</h2>
+  <div class="divider"></div>
+  <div class="prob-grid">
+    <div class="prob-item">
+      <h4>🔴 AI 교육 인프라의 수도권 집중</h4>
+      <p>국내 주요 AI 부트캠프 대다수가 서울 강남·판교 편중. 정부 2026년 AI 부트캠프 37개교 지역별 선정 추진 중. 지방 거주자 접근성 현저히 낮음.</p>
+    </div>
+    <div class="prob-item">
+      <h4>🔴 천안 청년 인재 유출</h4>
+      <p>연간 전출 청년 4만 8,006명 중 상당수가 AI 교육·취업 기회를 찾아 수도권으로 이동. (천안시 청년통계 2025)</p>
+    </div>
+    <div class="prob-item">
+      <h4>🔴 중장년 디지털 전환 공백</h4>
+      <p>40~50대 재직자·자영업자의 AI 도구 실무 활용 역량 부족. 급격한 산업 변화 대응 어려움.</p>
+    </div>
+    <div class="prob-item">
+      <h4>🔴 창업 원스톱 지원 부재</h4>
+      <p>AI 기반 창업 아이디어에서 기술 구현·멘토링·자금 연계까지 이어지는 통합 지원 체계 미비.</p>
+    </div>
+  </div>
+  <div class="ktx-box">
+    <div class="ktx-icon">🚄</div>
+    <div class="ktx-text">
+      <h4>천안의 결정적 강점 — 전국 교통의 십자로</h4>
+      <p>서울 50분 · 대전 25분 · 대구 65분 · 광주 75분 · 부산 110분<br>GTX-C 연계 시 수도권 접근성 더욱 강화 · KTX 2시간 내 접근 인구 4,000만+</p>
+    </div>
+  </div>
+</section>
+
+<!-- 개선방안 -->
+<section class="fade-up">
+  <div class="snum">// 05 — 개선방안</div>
+  <h2 class="stitle">천안 AI 캠퍼스 허브 구축 방안</h2>
+  <div class="divider"></div>
+  <div class="sol-list">
+    <div class="sol-item">
+      <div class="sol-dot">🏢</div>
+      <div class="sol-body">
+        <h3>① AI 실습 거점 센터 설치 — 교육 접근성 불균형 해소</h3>
+        <p>천안아산역 인근, 시청 인근 등 2~3곳에 GPU 서버·실습 PC·협업 공간 구축. 1일 체험 / 3일·1주 단기 집중 / 4~6주 정규 과정 다양하게 운영. 공공시설·지역 대학 공간 활용으로 초기 투자비용 최소화.</p>
+        <div class="sol-tags"><span class="sol-tag">거점 2~3곳</span><span class="sol-tag">GPU 실습 환경</span><span class="sol-tag">단기·정규 과정</span></div>
+      </div>
+    </div>
+    <div class="sol-item">
+      <div class="sol-dot">🎓</div>
+      <div class="sol-body">
+        <h3>② 대상별 맞춤 커리큘럼 — 디지털 공백·역량 강화</h3>
+        <p>청년(20~30대): AI 개발·데이터 분석·LLM 활용·취업 포트폴리오 / 중장년(40~50대): ChatGPT 업무 활용, 자동화(RPA), AI 마케팅 실무 / 창업자: AI 비즈니스 모델 설계, MVP 개발, 투자유치 피칭.</p>
+        <div class="sol-tags"><span class="sol-tag">청년 — AI 개발·취업</span><span class="sol-tag">중장년 — 업무 자동화</span><span class="sol-tag">창업자 — AI 비즈니스</span></div>
+      </div>
+    </div>
+    <div class="sol-item">
+      <div class="sol-dot">🚄</div>
+      <div class="sol-body">
+        <h3>③ KTX 연계 전국 유치 전략 — 지역 경제 활성화</h3>
+        <p>타지역 수강생 KTX 교통비 일부 지원(왕복 최대 2만 원) 및 지역 숙박 패키지 연계. '천안 AI 부트캠프' 브랜드 구축 — 전국 SNS·온라인 채널 홍보. 수강 후 천안 관광·맛집 연계 프로그램으로 지역 소비 유도.</p>
+        <div class="sol-tags"><span class="sol-tag">교통비 지원</span><span class="sol-tag">숙박 패키지</span><span class="sol-tag">AI 부트캠프 브랜드</span></div>
+      </div>
+    </div>
+    <div class="sol-item">
+      <div class="sol-dot">🤝</div>
+      <div class="sol-body">
+        <h3>④ 지역 대학·기업 연계 생태계 — 창업 원스톱 지원</h3>
+        <p>단국대·호서대·상명대 등 천안 소재 12개 대학 AI 학과와 커리큘럼 공동 개발. 지역 기업 실제 데이터·과제를 실습에 활용(산학 프로젝트형). 우수 수료생 취업·인턴십 연계 및 창업지원금 우선 배정.</p>
+        <div class="sol-tags"><span class="sol-tag">지역 대학 협력</span><span class="sol-tag">기업 실습 프로젝트</span><span class="sol-tag">취업·창업 연계</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 기대효과 -->
+<section class="fade-up">
+  <div class="snum">// 06 — 기대효과</div>
+  <h2 class="stitle">천안이 바뀌는 방식</h2>
+  <div class="divider"></div>
+  <div class="eff-grid">
+    <div class="eff-card">
+      <div class="eff-icon">💰</div>
+      <h4>지역 소비 창출</h4>
+      <p>연간 타지역 수강생 1,000명 유입 × 1인당 교통·숙박·식음 평균 15만 원</p>
+      <div class="eff-num">연 약 1.5억 원</div>
+    </div>
+    <div class="eff-card">
+      <div class="eff-icon">🧑‍💻</div>
+      <h4>취업 인건비 유발 효과</h4>
+      <p>연간 취업 연계 100명 × 연 평균 급여 3,000만 원 지역 내 경제 순환</p>
+      <div class="eff-num">연 약 30억 원</div>
+    </div>
+    <div class="eff-card">
+      <div class="eff-icon">🚀</div>
+      <h4>신규 일자리 창출</h4>
+      <p>AI 창업팀 연 20팀 × 초기 고용 3인 + 센터 운영 수입 연간 2~3억 원</p>
+      <div class="eff-num">60개+ 일자리</div>
+    </div>
+    <div class="eff-card">
+      <div class="eff-icon">🏙️</div>
+      <h4>천안 AI 허브 브랜딩</h4>
+      <p>전국 미디어 노출로 '교육·혁신 도시 천안' 이미지 구축 → 기업 유치 선순환</p>
+      <div class="eff-num">도시 브랜드 ↑</div>
+    </div>
+  </div>
+</section>
+
+<!-- 조치사항 -->
+<section class="fade-up">
+  <div class="snum">// 07 — 조치사항</div>
+  <h2 class="stitle">실현을 위한 조치사항</h2>
+  <div class="divider"></div>
+  <div class="mea-grid">
+    <div class="mea-item on"><div class="mea-check">✓</div><span>관련규정 개정</span></div>
+    <div class="mea-item on"><div class="mea-check">✓</div><span>인력추가 지원</span></div>
+    <div class="mea-item on"><div class="mea-check">✓</div><span>예산확보·지원</span></div>
+    <div class="mea-item"><div class="mea-check">–</div><span>업무프로세스 조정</span></div>
+    <div class="mea-item on"><div class="mea-check">✓</div><span>관련기관 협의</span></div>
+    <div class="mea-item"><div class="mea-check">–</div><span>기타</span></div>
+  </div>
+  <p style="margin-top:1.2rem;font-size:.78rem;color:var(--muted);line-height:1.8;">
+    ※ 관련기관 협의: 천안 소재 대학(단국대·호서대·상명대 등), 고용노동부 충남지청, 중소벤처기업부, KIAT, 코레일<br>
+    ※ 예산: 센터 구축비(1개소 약 3억 원), 운영·강사비(연간 약 2억 원), 수강생 지원금(연간 약 1억 원)
+  </p>
+</section>
+
+<footer>
+  <strong>천안 AI 캠퍼스 허브</strong><br>
+  2026 천안시 정책 아이디어 공모전 — 키워:봄 분야 제안<br>
+  <span style="color:var(--accent);font-family:'Space Mono',monospace;font-size:.75rem;">당신의 아이디어로 피어나는 천안 🌸</span>
+</footer>
+
+<script>
+const cityData = {
+  '서울': { time:'50분', type:'KTX / SRT', pop:'인구 963만명', card:'tc-서울' },
+  '수원': { time:'35분~', type:'KTX + GTX-C 예정', pop:'경기도 인구 1,371만명', card:null },
+  '수서': { time:'40분', type:'SRT (수서발)', pop:'서울 강남권 접근', card:null },
+  '대전': { time:'25분', type:'KTX 경부선', pop:'인구 144만명', card:'tc-대전' },
+  '광주': { time:'75분', type:'KTX 호남선', pop:'인구 143만명', card:null },
+  '대구': { time:'65분', type:'KTX 경부선', pop:'인구 238만명', card:'tc-대구' },
+  '부산': { time:'110분', type:'KTX 경부선', pop:'인구 330만명', card:'tc-부산' },
+  '천안': { time:'0분', type:'여기가 목적지!', pop:'인구 70만+ / 청년 29.9%', card:null },
+};
+
+function sel(name, nodeEl) {
+  const d = cityData[name];
+  if (!d) return;
+  document.getElementById('ip-city').textContent = name + ' → 천안아산역';
+  document.getElementById('ip-time').textContent = d.time;
+  document.getElementById('ip-type').textContent = d.type;
+  document.getElementById('ip-pop').textContent = d.pop;
+  document.querySelectorAll('.time-card').forEach(el => el.classList.remove('active'));
+  if (d.card) document.getElementById(d.card)?.classList.add('active');
+}
+
+// Scroll fade-up
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 60);
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// Animate bars on scroll
+const barObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.pop-bar-fill').forEach(bar => {
+        setTimeout(() => { bar.style.width = bar.dataset.w; }, 150);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+const pb = document.querySelector('.pop-bars');
+if (pb) barObs.observe(pb);
+</script>
+</body>
+</html>
